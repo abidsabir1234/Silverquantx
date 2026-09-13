@@ -1,0 +1,239 @@
+@import 'tailwindcss';
+
+@source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
+@source '../../storage/framework/views/*.php';
+
+@theme {
+    --font-sans: 'Inter', 'Manrope', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
+        'Segoe UI Symbol', 'Noto Color Emoji';
+
+    /* Design tokens live here (Tailwind v4 has no tailwind.config.js) — edit these to
+       retheme the whole app. Premium Fintech + Institutional Dashboard theme. */
+
+    /* Backgrounds — deep dark fintech black */
+    --color-bg: #080B0A;
+    --color-bg-alt: #0d110f;
+
+    /* Surfaces (cards, panels) */
+    --color-surface: #111715;
+    --color-surface-alt: #161e1b;
+    --color-border: #1e2622;
+    --color-border-subtle: #141a18;
+
+    /* Silver / metallic accent (kept for coin art & primary actions) */
+    --color-silver: #d1d5db;
+    --color-silver-light: #f3f4f6;
+
+    /* Primary accent — Emerald Green (active status highlights, charts, ticks) */
+    --color-accent: #00C985;
+    --color-accent-hover: #00b074;
+
+    /* Atmospheric glow hues (mesh backgrounds, subtle decorative depth) */
+    --color-glow-steel: oklch(25% 0.08 155);
+    --color-glow-slate: oklch(18% 0.04 165);
+
+    /* Text — Silver / White */
+    --color-text: #f3f4f6;
+    --color-text-muted: #9ca3af;
+    --color-text-subtle: #6b7280;
+
+    /* Status */
+    --color-success: #00C985;
+    --color-warning: #f59e0b;
+    --color-danger: #ef4444;
+
+    /* Radii */
+    --radius-card: 1rem;
+    --radius-control: 0.625rem;
+
+    /* Shadows (kept subtle per brand spec) */
+    --shadow-card: 0 1px 3px 0 rgb(0 0 0 / 0.4), 0 1px 2px 0 rgb(0 0 0 / 0.24);
+    --shadow-elevated: 0 16px 36px -8px rgb(0 0 0 / 0.6), 0 3px 8px -2px rgb(0 0 0 / 0.4);
+}
+
+@layer base {
+    html {
+        color-scheme: dark;
+    }
+
+    body {
+        background-color: var(--color-bg);
+        color: var(--color-text);
+    }
+
+    ::selection {
+        background-color: var(--color-accent);
+        color: var(--color-bg);
+    }
+}
+
+@layer utilities {
+    @keyframes fade-in {
+        from {
+            opacity: 0;
+        }
+        to {
+            opacity: 1;
+        }
+    }
+
+    @keyframes slide-up {
+        from {
+            opacity: 0;
+            transform: translateY(8px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    @keyframes modal-in {
+        from {
+            opacity: 0;
+            transform: scale(0.96) translateY(4px);
+        }
+        to {
+            opacity: 1;
+            transform: scale(1) translateY(0);
+        }
+    }
+
+    .animate-fade-in {
+        animation: fade-in 0.3s ease-out both;
+    }
+
+    .animate-slide-up {
+        animation: slide-up 0.3s ease-out both;
+    }
+
+    .animate-modal-in {
+        animation: modal-in 0.18s cubic-bezier(0.16, 1, 0.3, 1) both;
+    }
+
+    .animate-overlay-in {
+        animation: fade-in 0.18s ease-out both;
+    }
+
+    @keyframes float-y {
+        0%, 100% { transform: translateY(0); }
+        50% { transform: translateY(-14px); }
+    }
+
+    @keyframes spin-slow {
+        from { transform: rotate(0deg); }
+        to { transform: rotate(360deg); }
+    }
+
+    @keyframes spin-slow-rev {
+        from { transform: rotate(360deg); }
+        to { transform: rotate(0deg); }
+    }
+
+    @keyframes pulse-dot {
+        0%, 100% { opacity: 1; transform: scale(1); }
+        50% { opacity: .45; transform: scale(1.35); }
+    }
+
+    @keyframes mesh-drift-a {
+        0%, 100% { transform: translate(0, 0) scale(1); }
+        50% { transform: translate(-4%, 3%) scale(1.08); }
+    }
+
+    @keyframes mesh-drift-b {
+        0%, 100% { transform: translate(0, 0) scale(1); }
+        50% { transform: translate(3%, -4%) scale(1.06); }
+    }
+
+    @keyframes mesh-drift-c {
+        0%, 100% { transform: translate(0, 0) scale(1); }
+        50% { transform: translate(-2%, -3%) scale(1.04); }
+    }
+
+    @keyframes dash-flow {
+        to { stroke-dashoffset: -120; }
+    }
+
+    @keyframes shimmer-x {
+        0% { background-position: -160% 0; }
+        100% { background-position: 160% 0; }
+    }
+
+    @keyframes progress-grow {
+        from { width: 0%; }
+    }
+
+    @keyframes btn-sheen {
+        0%, 78%, 100% { left: -60%; }
+        38% { left: 130%; }
+    }
+
+    .animate-float-y {
+        animation: float-y 6s ease-in-out infinite;
+    }
+
+    .animate-spin-slow {
+        animation: spin-slow 42s linear infinite;
+    }
+
+    .animate-spin-slow-rev {
+        animation: spin-slow-rev 30s linear infinite;
+    }
+
+    .animate-pulse-dot {
+        animation: pulse-dot 2.4s ease-in-out infinite;
+    }
+
+    .animate-mesh-a {
+        animation: mesh-drift-a 16s ease-in-out infinite;
+    }
+
+    .animate-mesh-b {
+        animation: mesh-drift-b 20s ease-in-out infinite;
+    }
+
+    .animate-mesh-c {
+        animation: mesh-drift-c 18s ease-in-out infinite;
+    }
+
+    .animate-dash-flow {
+        animation: dash-flow 5s linear infinite;
+    }
+
+    .animate-shimmer-x {
+        background-size: 220% 100%;
+        animation: shimmer-x 3.5s linear infinite;
+    }
+
+    .animate-progress-grow {
+        animation: progress-grow 1.6s cubic-bezier(0.16, 1, 0.3, 1) .3s both;
+    }
+
+    .animate-btn-sheen {
+        animation: btn-sheen 4.5s ease-in-out infinite;
+    }
+
+    .grain-overlay {
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+        background-size: 160px 160px;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+        .animate-fade-in,
+        .animate-slide-up,
+        .animate-modal-in,
+        .animate-overlay-in,
+        .animate-float-y,
+        .animate-spin-slow,
+        .animate-spin-slow-rev,
+        .animate-pulse-dot,
+        .animate-mesh-a,
+        .animate-mesh-b,
+        .animate-mesh-c,
+        .animate-dash-flow,
+        .animate-shimmer-x,
+        .animate-btn-sheen {
+            animation: none;
+        }
+    }
+}
