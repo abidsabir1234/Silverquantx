@@ -23,7 +23,8 @@ jobs:
           username: ftp_abid_movievideos_site
           password: 2bf3392c2f2f
           protocol: ftp
-          timeout: 30m
+          port: 21
+          timeout: 1800000
 
           exclude: |
             **/.git*
