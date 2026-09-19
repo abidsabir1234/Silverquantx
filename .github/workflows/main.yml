@@ -15,7 +15,7 @@ jobs:
       - name: 🚚 Checkout repository
         uses: actions/checkout@v4
 
-      # Upload source code
+      # Upload source code to aaPanel
       - name: 📂 Upload source to aaPanel
         uses: SamKirkland/FTP-Deploy-Action@v4.3.4
         with:
@@ -23,7 +23,7 @@ jobs:
           username: ftp_abid_movievideos_site
           password: 2bf3392c2f2f
           protocol: ftp
-          timeout: 9999999
+          timeout: 30m
 
           exclude: |
             **/.git*
@@ -36,16 +36,16 @@ jobs:
             storage/logs/**
             public/build/**
 
-      # Run deployment commands on server
+      # Run deployment commands on aaPanel server
       - name: ⚙️ Install dependencies and build on server
         uses: appleboy/ssh-action@v1.2.2
         with:
           host: 84.247.187.184
           username: ftp_abid_movievideos_site
           password: 2bf3392c2f2f
-          protocol: ftp
           port: 22
-          timeout: 9999999
+          timeout: 30s
+          command_timeout: 30m
 
           script: |
             cd /www/wwwroot/abid.movievideos.site
