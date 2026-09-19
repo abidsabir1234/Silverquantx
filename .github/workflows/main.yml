@@ -19,9 +19,9 @@ jobs:
       - name: 📂 Upload source to aaPanel
         uses: SamKirkland/FTP-Deploy-Action@v4.3.4
         with:
-          server: ${{ secrets.FTP_SERVER }}
-          username: ${{ secrets.FTP_USERNAME }}
-          password: ${{ secrets.FTP_PASSWORD }}
+          server: 84.247.187.184
+          username: ftp_abid_movievideos_site
+          password: 2bf3392c2f2f
           protocol: ftp
           timeout: 9999999
 
