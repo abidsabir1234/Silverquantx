@@ -1,45 +1,54 @@
-name: Deploy Laravel React
+name: Laravel React FTP Deploy
 
 on:
   push:
     branches: ["main"]
 
 jobs:
-  deploy:
+  web-deploy:
+    name: 🚀 Deploy Laravel + React to aaPanel
     runs-on: ubuntu-latest
 
     steps:
 
-      - name: Checkout code
+      - name: 🚚 Get latest code
         uses: actions/checkout@v4
 
-      - name: Setup Node
+      - name: ⚙️ Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: 20
           cache: npm
 
-      - name: Install React dependencies
+      - name: 📦 Install React/Vite dependencies
         run: npm ci
 
-      - name: Build React
+      - name: 🏗️ Build React/Vite
         run: npm run build
 
-      - name: Setup PHP
+      - name: 🐘 Setup PHP 8.2
         uses: shivammathur/setup-php@v2
         with:
-          php-version: '8.2'
+          php-version: "8.2"
           extensions: mbstring, bcmath, intl, pdo_mysql
           coverage: none
 
-      - name: Install Laravel dependencies
+      - name: 📦 Install Laravel dependencies
         run: composer install --no-dev --optimize-autoloader
 
-      - name: Deploy to aaPanel
+      - name: 📂 Deploy to aaPanel
         uses: SamKirkland/FTP-Deploy-Action@v4.3.4
         with:
           server: 84.247.187.184
           username: ftp_abid_movievideos_site
           password: 2bf3392c2f2f
+          protocol: ftp
           timeout: 9999999
-          server-dir: /
+          exclude: |
+            **/.git*
+            **/.git*/**
+            **/node_modules/**
+            .env
+            .env.*
+            tests/**
+            storage/logs/**
