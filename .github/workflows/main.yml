@@ -6,23 +6,23 @@ on:
 
 jobs:
   deploy:
-    name: 🚀 Deploy to aaPanel
+    name: 🚀 Deploy Laravel + React to aaPanel
     runs-on: ubuntu-latest
 
     steps:
 
-      # 1. Get latest source code
+      # Checkout repository
       - name: 🚚 Checkout repository
         uses: actions/checkout@v4
 
-      # 2. Upload source code to aaPanel
+      # Upload source code
       - name: 📂 Upload source to aaPanel
         uses: SamKirkland/FTP-Deploy-Action@v4.3.4
         with:
-          server: 84.247.187.184
-          username: ftp_abid_movievideos_site
-          password: 2bf3392c2f2f
-            protocol: ftp
+          server: ${{ secrets.FTP_SERVER }}
+          username: ${{ secrets.FTP_USERNAME }}
+          password: ${{ secrets.FTP_PASSWORD }}
+          protocol: ftp
           timeout: 9999999
 
           exclude: |
@@ -35,3 +35,34 @@ jobs:
             tests/**
             storage/logs/**
             public/build/**
+
+      # Run deployment commands on server
+      - name: ⚙️ Install dependencies and build on server
+        uses: appleboy/ssh-action@v1.2.2
+        with:
+          host: 84.247.187.184
+          username: ftp_abid_movievideos_site
+          password: 2bf3392c2f2f
+          protocol: ftp
+          port: 22
+          timeout: 9999999
+
+          script: |
+            cd /www/wwwroot/abid.movievideos.site
+
+            echo "📦 Installing Composer dependencies..."
+            composer install --no-dev --optimize-autoloader
+
+            echo "📦 Installing Node dependencies..."
+            npm ci
+
+            echo "🏗️ Building React/Vite..."
+            npm run build
+
+            echo "🔗 Creating storage link..."
+            php artisan storage:link
+
+            echo "⚡ Optimizing Laravel..."
+            php artisan optimize
+
+            echo "✅ Deployment completed successfully!"
