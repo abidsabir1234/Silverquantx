@@ -1,4 +1,4 @@
-name: Deploy React + Laravel
+name: Deploy Laravel React
 
 on:
   push:
@@ -17,25 +17,25 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 20
+          cache: npm
 
       - name: Install React dependencies
-        working-directory: frontend
         run: npm ci
 
       - name: Build React
-        working-directory: frontend
         run: npm run build
 
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
-          php-version: '8.3'
+          php-version: '8.2'
+          extensions: mbstring, bcmath, intl, pdo_mysql
+          coverage: none
 
       - name: Install Laravel dependencies
-        working-directory: backend
         run: composer install --no-dev --optimize-autoloader
 
-      - name: Deploy files
+      - name: Deploy to aaPanel
         uses: SamKirkland/FTP-Deploy-Action@v4.3.4
         with:
           server: 84.247.187.184
