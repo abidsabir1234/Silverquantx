@@ -1,19 +1,45 @@
-name: HTML Exporter FTP-Deploy
+name: Deploy React + Laravel
+
 on:
   push:
     branches: ["main"]
-jobs:
-  web-deploy:
-    name: 🎉 Deploy On IntegralSolver.net
-    runs-on: ubuntu-latest
-    steps:
-      - name: 🚚 Get latest code
-        uses: actions/checkout@v3
 
-      - name: 📂 Sync files
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Install React dependencies
+        working-directory: frontend
+        run: npm ci
+
+      - name: Build React
+        working-directory: frontend
+        run: npm run build
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.3'
+
+      - name: Install Laravel dependencies
+        working-directory: backend
+        run: composer install --no-dev --optimize-autoloader
+
+      - name: Deploy files
         uses: SamKirkland/FTP-Deploy-Action@v4.3.4
         with:
           server: 84.247.187.184
           username: ftp_abid_movievideos_site
           password: 2bf3392c2f2f
           timeout: 9999999
+          server-dir: /
