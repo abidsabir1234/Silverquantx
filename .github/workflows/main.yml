@@ -1,0 +1,19 @@
+name: HTML Exporter FTP-Deploy
+on:
+  push:
+    branches: ["main"]
+jobs:
+  web-deploy:
+    name: 🎉 Deploy On IntegralSolver.net
+    runs-on: ubuntu-latest
+    steps:
+      - name: 🚚 Get latest code
+        uses: actions/checkout@v3
+
+      - name: 📂 Sync files
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.4
+        with:
+          server: 84.247.187.184
+          username: ftp_abid_movievideos_site
+          password: 2bf3392c2f2f
+          timeout: 9999999
